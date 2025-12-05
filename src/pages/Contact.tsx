@@ -6,6 +6,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { MailIcon, MapPinIcon, PhoneIcon } from "lucide-react";
 import { useState } from "react";
 import axios from "axios";
+import { motion } from "framer-motion";
+import { viewport } from "@/lib/motion";
 
 const APPS_SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycby0OR42lp9VLkxFQXJ2vbo0fY6kKoyPb1S10HF9U0MyVqLAc4cxmj3zeWDRh5ydpn3-/exec";
@@ -58,115 +60,123 @@ export default function Contact() {
   return (
     <main className="relative flex min-h-screen w-full items-center justify-center p-4">
       <div className="mx-auto w-full max-w-5xl py-12">
-        <ContactCard
-          title="Get in touch"
-          description="If you have any questions regarding our services or need assistance, please fill out the form. We typically respond within 1 business day."
-          contactInfo={[
-            {
-              icon: MailIcon,
-              label: "Email",
-              value: (
-                <a
-                  href="mailto:yusufgambohamza@gmail.com"
-                  className="hover:text-primary"
-                >
-                  yusufgambohamza@gmail.com
-                </a>
-              ),
-            },
-            {
-              icon: PhoneIcon,
-              label: "Phone",
-              value: (
-                <div className="space-y-1">
-                  <a href="tel:+2347070682920" className="hover:text-primary">
-                    +234 707 068 2920
+        <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={viewport} transition={{ duration: 0.5 }}>
+          <ContactCard
+            title="Get in touch"
+            description="If you have any questions regarding our services or need assistance, please fill out the form. We typically respond within 1 business day."
+            contactInfo={[
+              {
+                icon: MailIcon,
+                label: "Email",
+                value: (
+                  <a
+                    href="mailto:yusufgambohamza@gmail.com"
+                    className="hover:text-primary"
+                  >
+                    yusufgambohamza@gmail.com
                   </a>
-                  <br />
-                  <a href="tel:+919358910362" className="hover:text-primary">
-                    +91 93589 10362
-                  </a>
+                ),
+              },
+              {
+                icon: PhoneIcon,
+                label: "Phone",
+                value: (
+                  <div className="space-y-1">
+                    <a href="tel:+2347070682920" className="hover:text-primary">
+                      +234 707 068 2920
+                    </a>
+                    <br />
+                    <a href="tel:+919358910362" className="hover:text-primary">
+                      +91 93589 10362
+                    </a>
+                  </div>
+                ),
+              },
+              {
+                icon: MapPinIcon,
+                label: "Office Address",
+                value:
+                  "No A2-47 Unity Road, Gidan Adawiyya, opposite Rahama Hausa, Kwari Market, Kano",
+                span: true,
+              },
+            ]}
+          >
+            <form className="w-full space-y-4" onSubmit={handleSubmit}>
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <div className="flex flex-col gap-2">
+                  <Label htmlFor="name">Name</Label>
+                  <Input
+                    id="name"
+                    name="name"
+                    type="text"
+                    placeholder="Your name"
+                    required
+                  />
                 </div>
-              ),
-            },
-            {
-              icon: MapPinIcon,
-              label: "Office Address",
-              value:
-                "No A2-47 Unity Road, Gidan Adawiyya, opposite Rahama Hausa, Kwari Market, Kano",
-              span: true,
-            },
-          ]}
-        >
-          <form className="w-full space-y-4" onSubmit={handleSubmit}>
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-              <div className="flex flex-col gap-2">
-                <Label htmlFor="name">Name</Label>
-                <Input
-                  id="name"
-                  name="name"
-                  type="text"
-                  placeholder="Your name"
-                  required
-                />
+                <div className="flex flex-col gap-2">
+                  <Label htmlFor="email">Email</Label>
+                  <Input
+                    id="email"
+                    name="email"
+                    type="email"
+                    placeholder="name@example.com"
+                    required
+                  />
+                </div>
+                <div className="md:col-span-2 flex flex-col gap-2">
+                  <Label htmlFor="phone">Phone</Label>
+                  <Input
+                    id="phone"
+                    name="phone"
+                    type="tel"
+                    placeholder="+234..."
+                  />
+                </div>
+                <div className="md:col-span-2 flex flex-col gap-2">
+                  <Label htmlFor="message">Message</Label>
+                  <Textarea
+                    id="message"
+                    name="message"
+                    placeholder="Tell us how we can help..."
+                    className="min-h-32"
+                    required
+                  />
+                </div>
               </div>
-              <div className="flex flex-col gap-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  name="email"
-                  type="email"
-                  placeholder="name@example.com"
-                  required
-                />
-              </div>
-              <div className="md:col-span-2 flex flex-col gap-2">
-                <Label htmlFor="phone">Phone</Label>
-                <Input
-                  id="phone"
-                  name="phone"
-                  type="tel"
-                  placeholder="+234..."
-                />
-              </div>
-              <div className="md:col-span-2 flex flex-col gap-2">
-                <Label htmlFor="message">Message</Label>
-                <Textarea
-                  id="message"
-                  name="message"
-                  placeholder="Tell us how we can help..."
-                  className="min-h-32"
-                  required
-                />
-              </div>
-            </div>
 
-            <div className="flex flex-col md:flex-row items-center gap-3">
-              <Button
-                className="w-full md:w-auto"
-                type="submit"
-                disabled={submitting}
-              >
-                {submitting ? "Sending..." : "Submit"}
-              </Button>
-              {status && (
-                <span
-                  role="status"
-                  className={`text-sm ${
-                    status.type === "success"
-                      ? "text-green-600"
-                      : "text-red-600"
-                  }`}
+              <div className="flex flex-col md:flex-row items-center gap-3">
+                <Button
+                  className="w-full md:w-auto"
+                  type="submit"
+                  disabled={submitting}
                 >
-                  {status.message}
-                </span>
-              )}
-            </div>
-          </form>
-        </ContactCard>
+                  {submitting ? "Sending..." : "Submit"}
+                </Button>
+                {status && (
+                  <span
+                    role="status"
+                    className={`text-sm ${
+                      status.type === "success"
+                        ? "text-green-600"
+                        : "text-red-600"
+                    }`}
+                  >
+                    {status.message}
+                  </span>
+                )}
+              </div>
+            </form>
+          </ContactCard>
+        </motion.div>
 
         {/* Map embed */}
-        <div className="mt-8 overflow-hidden rounded-lg border">
+        <motion.div
+          className="mt-8 overflow-hidden rounded-lg border"
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={viewport}
+          transition={{ duration: 0.5, delay: 0.1 }}
+        >
           <div className="h-[350px] w-full md:h-[450px]">
             <iframe
               title="YG Global Office Location"
@@ -187,7 +197,7 @@ export default function Contact() {
               Open in Google Maps
             </a>
           </div>
-        </div>
+        </motion.div>
       </div>
     </main>
   );

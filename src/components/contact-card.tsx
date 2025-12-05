@@ -7,6 +7,8 @@ import {
   PlusIcon,
 } from "lucide-react";
 import type React from "react";
+import { motion } from "framer-motion";
+import { container, item,  viewport } from "@/lib/motion";
 
 type ContactInfoProps = React.ComponentProps<"div"> & {
   icon: LucideIcon;
@@ -66,53 +68,68 @@ export function ContactCard({
             {description}
           </p>
           <div className="grid sm:grid-cols-2 gap-4 ">
-            {contactInfo?.map((info) => (
-              <ContactInfo
-                className={`${info.span && "sm:col-span-2"}`}
-                key={info.label}
-                {...info}
-              />
-            ))}
+            {/* animate contact info items */}
+            <motion.div
+              className="contents"
+              initial="hidden"
+              whileInView="show"
+              viewport={viewport}
+              variants={container}
+            >
+              {contactInfo?.map((info) => (
+                <motion.div
+                  key={info.label}
+                  className={`${info.span && "sm:col-span-2"}`}
+                  variants={item}
+                >
+                  <ContactInfo {...info} />
+                </motion.div>
+              ))}
+            </motion.div>
           </div>
           <div className="flex items-center gap-4 ml-2">
-            <a
+            <motion.a
               href=""
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Facebook"
               className="hover:text-primary"
+              whileHover={{ y: -2 }}
             >
               <Facebook className="size-6" />
-            </a>
-            <a
+            </motion.a>
+            <motion.a
               href=""
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Instagram"
               className="hover:text-primary"
+              whileHover={{ y: -2 }}
             >
               <Instagram className="size-6" />
-            </a>
-            <a
+            </motion.a>
+            <motion.a
               href=""
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn"
               className="hover:text-primary"
+              whileHover={{ y: -2 }}
             >
               <Linkedin className="size-6" />
-            </a>
-            <a
+            </motion.a>
+            <motion.a
               href=""
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="LinkedIn"
+              aria-label="X"
               className="hover:text-primary"
+              whileHover={{ y: -2 }}
             >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
                 <path d="M453.2 112L523.8 112L369.6 288.2L551 528L409 528L297.7 382.6L170.5 528L99.8 528L264.7 339.5L90.8 112L236.4 112L336.9 244.9L453.2 112zM428.4 485.8L467.5 485.8L215.1 152L173.1 152L428.4 485.8z" />
               </svg>
-            </a>
+            </motion.a>
           </div>
         </div>
       </div>

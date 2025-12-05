@@ -1,4 +1,7 @@
 "use client";
+import { motion } from "framer-motion";
+import {  viewport } from "@/lib/motion";
+
 type ServiceProps = {
   title: string;
   introTitle: string;
@@ -19,7 +22,13 @@ const Service = ({
       {/* Full Width Hero */}
       <div className="bg-muted">
         {heroImage ? (
-          <div className="relative h-[220px] sm:h-[280px] md:h-[360px] overflow-hidden">
+          <motion.div
+            className="relative h-[220px] sm:h-[280px] md:h-[360px] overflow-hidden"
+            initial={{ opacity: 0, scale: 0.98 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={viewport}
+            transition={{ duration: 0.6 }}
+          >
             <img
               src={heroImage}
               alt={`${title} hero`}
@@ -28,25 +37,43 @@ const Service = ({
             <div className="absolute inset-0 bg-black/25" />
             <div className="absolute inset-0 flex items-center">
               <div className="container text-center">
-                <h1 className="text-4xl font-bold tracking-tight text-white md:text-5xl lg:text-6xl">
+                <motion.h1
+                  className="text-4xl font-bold tracking-tight text-white md:text-5xl lg:text-6xl"
+                  initial={{ opacity: 0, y: 12 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={viewport}
+                  transition={{ duration: 0.5, delay: 0.1 }}
+                >
                   {title}
-                </h1>
+                </motion.h1>
               </div>
             </div>
-          </div>
+          </motion.div>
         ) : (
-          <div className="py-24 md:py-32">
+          <motion.div
+            className="py-24 md:py-32"
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={viewport}
+            transition={{ duration: 0.5 }}
+          >
             <div className="container text-center">
               <h1 className="text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl">
                 {title}
               </h1>
             </div>
-          </div>
+          </motion.div>
         )}
       </div>
 
       {/* Intro Section */}
-      <div className="py-16">
+      <motion.div
+        className="py-16"
+        initial={{ opacity: 0, y: 12 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={viewport}
+        transition={{ duration: 0.5 }}
+      >
         <div className="container mx-auto px-4 lg:px-8">
           <div className="mx-auto max-w-3xl space-y-8 text-left">
             <h2 className="text-3xl font-semibold tracking-tight md:text-4xl">
@@ -57,10 +84,15 @@ const Service = ({
             </p>
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Content Section */}
-      <div className="">
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={viewport}
+        transition={{ duration: 0.5, delay: 0.05 }}
+      >
         <div className="container mx-auto px-4 lg:px-8">
           <div className="prose prose-sm dark:prose-invert mx-auto max-w-3xl">
             {/* Render content directly to support rich nodes */}
@@ -127,7 +159,7 @@ const Service = ({
             {/* </p> */}
           </div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };

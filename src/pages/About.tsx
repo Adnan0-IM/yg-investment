@@ -1,6 +1,7 @@
-import { Card } from "@/components/ui/card";
 import { Building2, Target, Eye, CheckCircle2 } from "lucide-react";
 import ship from "@/assets/ship.png";
+import { motion } from "framer-motion";
+import { container, item, viewport, } from "@/lib/motion";
 
 export default function AboutPage() {
   return (
@@ -16,10 +17,13 @@ export default function AboutPage() {
           <div className="absolute inset-0 bg-black/30 dark:bg-black/40" />
           <div className="absolute inset-0 flex items-center">
             <div className="container mx-auto px-4 lg:px-8">
-              <div className="max-w-3xl">
-                <span className="inline-flex items-center rounded-full border bg-white/10 px-3 py-1 text-xs font-medium text-white/90">
-                  About Us
-                </span>
+              <motion.div
+                className="max-w-3xl"
+                initial="hidden"
+                whileInView="show"
+                viewport={viewport}
+                variants={item}
+              >
                 <h1 className="mt-4 text-3xl font-bold text-white md:text-5xl">
                   About YG Global Investment Ltd.
                 </h1>
@@ -27,16 +31,21 @@ export default function AboutPage() {
                   Your trusted partner in global commerce, delivering excellence
                   across multiple industries.
                 </p>
-              </div>
+              </motion.div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Who We Are Section */}
-      <section className="py-16 md:py-24">
+      <motion.section
+        className="py-16 md:py-24"
+        initial="hidden"
+        whileInView="show"
+        viewport={viewport}
+      >
         <div className="container mx-auto px-4 lg:px-8">
-          <div className="flex gap-4 md:gap-8">
+          <motion.div className="flex gap-4 md:gap-8" variants={item}>
             <div className="flex-shrink-0">
               <Building2 className="h-8 w-8 text-primary" />
             </div>
@@ -54,15 +63,23 @@ export default function AboutPage() {
                 clients across different sectors.
               </p>
             </div>
-          </div>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Mission & Vision Section */}
-      <section className="bg-card py-16 md:py-24">
+      <motion.section
+        className="bg-card py-16 md:py-24"
+        initial="hidden"
+        whileInView="show"
+        viewport={viewport}
+      >
         <div className="container mx-auto px-4 lg:px-8">
-          <div className="grid gap-12 md:grid-cols-2">
-            <div>
+          <motion.div
+            className="grid gap-12 md:grid-cols-2"
+            variants={container}
+          >
+            <motion.div variants={item}>
               <div className="flex items-center gap-3">
                 <Target className="h-6 w-6 text-primary" />
                 <h3 className="text-2xl font-bold">Our Mission</h3>
@@ -72,8 +89,8 @@ export default function AboutPage() {
                 supply efficiency, and create long-lasting business
                 relationships.
               </p>
-            </div>
-            <div>
+            </motion.div>
+            <motion.div variants={item}>
               <div className="flex items-center gap-3">
                 <Eye className="h-6 w-6 text-primary" />
                 <h3 className="text-2xl font-bold ">Our Vision</h3>
@@ -82,24 +99,32 @@ export default function AboutPage() {
                 To become a trusted partner known for quality, consistency, and
                 dependable service across local and international markets.
               </p>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Values Section */}
-      <section className="py-16 md:py-24">
+      <motion.section
+        className="py-16 md:py-24"
+        initial="hidden"
+        whileInView="show"
+        viewport={viewport}
+      >
         <div className="container mx-auto px-4 lg:px-8">
-          <div className="mx-auto max-w-3xl text-center">
+          <motion.div className="mx-auto max-w-3xl text-center" variants={item}>
             <span className="inline-flex items-center rounded-full border bg-background px-3 py-1 text-xs font-medium text-muted-foreground">
               Our Values
             </span>
             <h2 className="mt-4 text-2xl font-semibold tracking-tight sm:text-3xl">
               The principles that guide everything we do
             </h2>
-          </div>
+          </motion.div>
 
-          <div className="mx-auto mt-12 grid max-w-5xl gap-6 md:grid-cols-2">
+          <motion.div
+            className="mx-auto mt-12 grid max-w-5xl gap-6 md:grid-cols-2"
+            variants={container}
+          >
             {[
               {
                 title: "Integrity",
@@ -119,24 +144,26 @@ export default function AboutPage() {
                 description: "We work with the needs of clients in mind.",
               },
             ].map((value) => (
-              <Card
+              <motion.div
                 key={value.title}
-                className="border border-border bg-card p-6"
+                className="border border-border bg-card p-6 rounded-lg"
+                variants={item}
+                whileHover={{ y: -2 }}
               >
                 <div className="flex items-start gap-4">
                   <CheckCircle2 className="h-6 w-6 flex-shrink-0 text-primary" />
                   <div>
-                    <h3 className="text-lg font-semibold ">
-                      {value.title}
-                    </h3>
-                    <p className="mt-2 text-muted-foreground">{value.description}</p>
+                    <h3 className="text-lg font-semibold ">{value.title}</h3>
+                    <p className="mt-2 text-muted-foreground">
+                      {value.description}
+                    </p>
                   </div>
                 </div>
-              </Card>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
 
       {/* CTA Section */}
       <section className="bg-primary">
@@ -148,15 +175,14 @@ export default function AboutPage() {
             Let's discuss how YG Global Investment Ltd. can support your
             business growth.
           </p>
-          
-             <a
+
+          <motion.a
             href="/contact"
             className="mt-8 inline-flex items-center gap-2 rounded-lg bg-secondary px-5 py-2.5 font-semibold text-accent-foreground transition-opacity hover:opacity-90"
+            whileHover={{ y: -2 }}
           >
             Get In Touch
-          </a>
-        
-         
+          </motion.a>
         </div>
       </section>
     </main>

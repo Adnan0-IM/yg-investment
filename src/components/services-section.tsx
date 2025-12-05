@@ -10,6 +10,8 @@ import {
   Truck,
 } from "lucide-react";
 import { Link } from "react-router";
+import { motion, cubicBezier } from "framer-motion";
+import { item, pop } from "@/lib/motion";
 
 const ServicesSection = () => {
   const services = [
@@ -71,11 +73,23 @@ const ServicesSection = () => {
     },
   ];
 
+  const cardVariants = {
+    hidden: { opacity: 0, x: -16 },
+    show: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 0.5,
+        delay: 0.1,
+        ease: cubicBezier(0.22, 1, 0.36, 1),
+      },
+    },
+  };
   return (
     <section className="py-32">
       <div className="container mx-auto px-4 lg:px-8">
         <div className=" space-y-12">
-          <div className="space-y-4 text-center">
+          <motion.div className="space-y-4 text-center" variants={item}>
             <span className="inline-flex items-center rounded-full border bg-background px-3 py-1 text-sm font-medium text-muted-foreground">
               Our Services
             </span>
@@ -85,13 +99,16 @@ const ServicesSection = () => {
             <p className="text-muted-foreground mx-auto max-w-2xl text-lg tracking-tight md:text-xl">
               Comprehensive commercial and supply solutions across key sectors.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+          <motion.div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             {services.map((service) => (
-              <div
+              <motion.div
                 key={service.title}
                 className="rounded-lg border p-0 overflow-hidden transition-shadow hover:shadow-sm"
+                initial="hidden"
+                whileInView="show"
+                variants={cardVariants}
               >
                 {service.thumbnail && (
                   <div className="h-32 w-full bg-muted">
@@ -113,39 +130,47 @@ const ServicesSection = () => {
                     {service.description}
                   </p>
                   <div className="flex">
-                    <Link
-                      to={service.href}
-                      className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm text-primary-foreground hover:bg-primary/90"
+                    <motion.div
+                      variants={pop}
+                      whileHover="hover"
+                      whileTap="tap"
                     >
-                      Learn More
-                    </Link>
+                      <Link
+                        to={service.href}
+                        className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm text-primary-foreground hover:bg-primary/90"
+                      >
+                        Learn More
+                      </Link>
+                    </motion.div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
 
           <div className="flex justify-center">
-            <Link
-              to="/services"
-              className="inline-flex items-center gap-2 rounded-md bg-primary px-5 py-2.5 text-primary-foreground shadow-sm hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
-            >
-              View Detailed Services
-              <svg
-                className="h-4 w-4"
-                viewBox="0 0 24 24"
-                fill="none"
-                aria-hidden="true"
+            <motion.div variants={item} whileHover="hover" whileTap="tap">
+              <Link
+                to="/services"
+                className="inline-flex items-center gap-2 rounded-md bg-primary px-5 py-2.5 text-primary-foreground shadow-sm hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
               >
-                <path
-                  d="M13 5l7 7-7 7M5 12h14"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </Link>
+                View Detailed Services
+                <svg
+                  className="h-4 w-4"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M13 5l7 7-7 7M5 12h14"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </Link>
+            </motion.div>
           </div>
         </div>
       </div>

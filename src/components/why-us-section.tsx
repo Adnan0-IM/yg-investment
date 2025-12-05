@@ -1,5 +1,7 @@
 import React from "react";
 import { GridBackgroundDemo } from "./grid-backgroud";
+import { motion } from "framer-motion";
+import { container, item, viewport } from "@/lib/motion";
 
 const items = [
   {
@@ -84,9 +86,14 @@ const WhyUs: React.FC = () => {
   return (
     <GridBackgroundDemo>
       {" "}
-      <section className="py-20 relative z-20">
+      <motion.section
+        className="py-20 relative z-20"
+        initial="hidden"
+        whileInView="show"
+        viewport={viewport}
+      >
         <div className="container mx-auto px-4 lg:px-8 md:min-w-3xl lg:min-w-5xl">
-          <div className="text-center">
+          <motion.div className="text-center" variants={item}>
             <span className="inline-flex items-center rounded-full border bg-background px-3 py-1 text-sm font-medium text-muted-foreground">
               Why Choose Us
             </span>
@@ -96,23 +103,28 @@ const WhyUs: React.FC = () => {
             <p className="mt-3 text-lg text-muted-foreground">
               We deliver dependable value across every engagement.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="mx-auto mt-10 grid max-w-5xl grid-cols-1 gap-4 sm:grid-cols-2">
-            {items.map((item) => (
-              <div
-                key={item.title}
+          <motion.div
+            className="mx-auto mt-10 grid max-w-5xl grid-cols-1 gap-4 sm:grid-cols-2"
+            variants={container}
+          >
+            {items.map((itemData) => (
+              <motion.div
+                key={itemData.title}
                 className="rounded-lg border bg-background p-6 transition hover:bg-accent/20 hover:shadow-sm"
+                variants={item}
+                whileHover={{ y: -2 }}
               >
                 <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                  {item.icon}
+                  {itemData.icon}
                 </div>
-                <h3 className="text-base font-medium">{item.title}</h3>
-              </div>
+                <h3 className="text-base font-medium">{itemData.title}</h3>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
     </GridBackgroundDemo>
   );
 };

@@ -1,6 +1,8 @@
 import { Service } from "@/components/service";
 import { services } from "@/data/services";
 import { Link, useLocation } from "react-router";
+import { motion } from "framer-motion";
+import { container, item, viewport } from "@/lib/motion";
 
 export default function Services() {
   const location = useLocation();
@@ -21,7 +23,7 @@ export default function Services() {
     return (
       <main className="py-16 md:py-24">
         <section className="container mx-auto px-4 lg:px-8">
-          <div className="mx-auto max-w-3xl text-center">
+          <motion.div className="mx-auto max-w-3xl text-center" initial="hidden" whileInView="show" viewport={viewport} variants={item}>
             <span className="inline-flex items-center rounded-full border bg-background px-3 py-1 text-xs font-medium text-muted-foreground">
               Our Services
             </span>
@@ -31,13 +33,21 @@ export default function Services() {
             <p className="mt-4 text-muted-foreground leading-relaxed">
               Comprehensive commercial and supply solutions across key sectors.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="mx-auto mt-10 grid max-w-6xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <motion.div
+            className="mx-auto mt-10 grid max-w-6xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+            initial="hidden"
+            whileInView="show"
+            viewport={viewport}
+            variants={container}
+          >
             {services.map((s) => (
-              <article
+              <motion.article
                 key={s.id}
                 className="overflow-hidden rounded-lg border bg-background transition-shadow hover:shadow-sm"
+                variants={item}
+                whileHover={{ y: -2 }}
               >
                 {s.thumbnail && (
                   <div className="h-36 w-full bg-muted sm:h-40">
@@ -76,11 +86,11 @@ export default function Services() {
                     </Link>
                   </div>
                 </div>
-              </article>
+              </motion.article>
             ))}
-          </div>
+          </motion.div>
 
-          <div className="mx-auto mt-12 max-w-3xl text-center">
+          <motion.div className="mx-auto mt-12 max-w-3xl text-center" initial="hidden" whileInView="show" viewport={viewport} variants={item}>
             <p className="text-sm text-muted-foreground">
               Can’t find what you’re looking for? Contact us to discuss custom
               requests.
@@ -93,7 +103,7 @@ export default function Services() {
                 Contact Us
               </Link>
             </div>
-          </div>
+          </motion.div>
         </section>
       </main>
     );
@@ -112,13 +122,14 @@ export default function Services() {
   }
 
   return (
-    <main className="">
+    <main key={strippedPath} className="">
       <Service
         title={service.title}
         introText={service.introText}
         introTitle={service.introTitle}
         content={service.content}
-        heroImage={service.heroImage} // new
+        heroImage={service.heroImage}
+        key={service.id}
       />
     </main>
   );

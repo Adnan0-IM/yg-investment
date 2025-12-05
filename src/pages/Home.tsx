@@ -4,6 +4,8 @@ import { ServicesSection } from "@/components/services-section";
 import WhyUs from "@/components/why-us-section";
 import { Check } from "lucide-react";
 import { Link } from "react-router";
+import { motion } from "framer-motion";
+import { container, item, pop, viewport } from "@/lib/motion";
 
 export default function Home() {
   return (
@@ -19,9 +21,14 @@ export default function Home() {
 
 function AboutUsSection() {
   return (
-    <section className="py-20 bg-muted/30">
+    <motion.section
+      className="py-20 bg-muted/30"
+      initial="hidden"
+      whileInView="show"
+      viewport={viewport}
+    >
       <div className="container mx-auto px-4 lg:px-8">
-        <div className="mx-auto max-w-3xl text-center">
+        <motion.div className="mx-auto max-w-3xl text-center" variants={item}>
           <span className="inline-flex items-center rounded-full border bg-background px-3 py-1 text-xs font-medium text-muted-foreground">
             About Us
           </span>
@@ -38,52 +45,74 @@ function AboutUsSection() {
             long-term business relationships.
           </p>
 
-          <div className="mt-8">
-            <Link
-              to="/about"
-              className="inline-flex items-center gap-2 rounded-md bg-primary px-5 py-2.5 text-primary-foreground shadow-sm hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
-            >
-              Learn More About Us
-              <svg
-                className="h-4 w-4"
-                viewBox="0 0 24 24"
-                fill="none"
-                aria-hidden="true"
+          <motion.div className="mt-8" variants={item}>
+            <motion.div whileHover="hover" whileTap="tap" variants={pop}>
+              <Link
+                to="/about"
+                className="inline-flex items-center gap-2 rounded-md bg-primary px-5 py-2.5 text-primary-foreground shadow-sm hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
               >
-                <path
-                  d="M13 5l7 7-7 7M5 12h14"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </Link>
-          </div>
-        </div>
+                Learn More About Us
+                <svg
+                  className="h-4 w-4"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M13 5l7 7-7 7M5 12h14"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </Link>
+            </motion.div>
+          </motion.div>
+        </motion.div>
 
-        <div className="mx-auto mt-10 grid max-w-4xl grid-cols-1 gap-4 sm:grid-cols-3">
-          <div className="rounded-lg border bg-background p-4 text-center">
+        <motion.div
+          className="mx-auto mt-10 grid max-w-4xl grid-cols-1 gap-4 sm:grid-cols-3"
+          variants={container}
+        >
+          <motion.div
+            className="rounded-lg border bg-background p-4 text-center"
+            variants={item}
+            whileHover="hover"
+            whileTap="tap"
+            // variants={Object.assign({}, item, {})}
+          >
             <div className="mx-auto mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-primary">
-           
               <Check />
             </div>
             <p className=" font-medium">Dependable Delivery</p>
-          </div>
-          <div className="rounded-lg border bg-background p-4 text-center">
+          </motion.div>
+
+          <motion.div
+            className="rounded-lg border bg-background p-4 text-center"
+            variants={item}
+            whileHover="hover"
+            whileTap="tap"
+          >
             <div className="mx-auto mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-primary">
               <Check />
             </div>
             <p className=" font-medium">Quality First</p>
-          </div>
-          <div className="rounded-lg border bg-background p-4 text-center">
+          </motion.div>
+
+          <motion.div
+            className="rounded-lg border bg-background p-4 text-center"
+            variants={item}
+            whileHover="hover"
+            whileTap="tap"
+          >
             <div className="mx-auto mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-primary">
-             <Check />
+              <Check />
             </div>
             <p className=" font-medium">Long-Term Partnerships</p>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
-    </section>
+    </motion.section>
   );
 }
