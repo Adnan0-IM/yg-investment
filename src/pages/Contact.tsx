@@ -21,7 +21,7 @@ export default function Contact() {
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const form = e.currentTarget; 
+    const form = e.currentTarget;
     setSubmitting(true);
     setStatus(null);
 
@@ -36,17 +36,17 @@ export default function Contact() {
     try {
       const res = await axios.post(
         APPS_SCRIPT_URL,
-        new URLSearchParams(payload), 
+        new URLSearchParams(payload),
         {
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        }
+        },
       );
       if (!res) throw new Error(`Submit failed`);
       setStatus({
         type: "success",
         message: "Thanks! Your message has been sent.",
       });
-      form.reset(); 
+      form.reset();
     } catch (err: unknown) {
       setStatus({
         type: "error",
@@ -60,7 +60,12 @@ export default function Contact() {
   return (
     <main className="relative flex min-h-screen w-full items-center justify-center p-4">
       <div className="mx-auto w-full max-w-5xl py-12">
-        <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={viewport} transition={{ duration: 0.5 }}>
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={viewport}
+          transition={{ duration: 0.5 }}
+        >
           <ContactCard
             title="Get in touch"
             description="If you have any questions regarding our services or need assistance, please fill out the form. We typically respond within 1 business day."
@@ -68,6 +73,7 @@ export default function Contact() {
               {
                 icon: MailIcon,
                 label: "Email",
+                span: false,
                 value: (
                   <a
                     href="mailto:yusufgambohamza@gmail.com"
@@ -80,6 +86,7 @@ export default function Contact() {
               {
                 icon: PhoneIcon,
                 label: "Phone",
+                span: false,
                 value: (
                   <div className="space-y-1">
                     <a href="tel:+2347070682920" className="hover:text-primary">

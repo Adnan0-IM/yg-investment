@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 import type React from "react";
 import { motion } from "framer-motion";
-import { container, item,  viewport } from "@/lib/motion";
+import { container, item, viewport } from "@/lib/motion";
 
 type ContactInfoProps = React.ComponentProps<"div"> & {
   icon: LucideIcon;
@@ -38,7 +38,7 @@ export function ContactCard({
     <div
       className={cn(
         "relative grid h-full w-full border md:grid-cols-2 lg:grid-cols-5",
-        className,
+        className
       )}
       {...props}
     >
@@ -67,26 +67,23 @@ export function ContactCard({
           <p className="max-w-xl text-muted-foreground text-sm md:text-base lg:text-lg">
             {description}
           </p>
-          <div className="grid sm:grid-cols-2 gap-4 ">
-            {/* animate contact info items */}
-            <motion.div
-              className="contents"
-              initial="hidden"
-              whileInView="show"
-              viewport={viewport}
-              variants={container}
-            >
-              {contactInfo?.map((info) => (
-                <motion.div
-                  key={info.label}
-                  className={`${info.span && "sm:col-span-2"}`}
-                  variants={item}
-                >
-                  <ContactInfo {...info} />
-                </motion.div>
-              ))}
-            </motion.div>
-          </div>
+          <motion.div
+            className="grid sm:grid-cols-2 gap-4 "
+            initial="hidden"
+            whileInView="show"
+            viewport={viewport}
+            variants={container}
+          >
+            {contactInfo?.map((info) => (
+              <motion.div
+                key={info.label}
+                className={info.span ? "sm:col-span-2" : undefined}
+                variants={item}
+              >
+                <ContactInfo {...info} />
+              </motion.div>
+            ))}
+          </motion.div>
           <div className="flex items-center gap-4 ml-2">
             <motion.a
               href=""
@@ -136,7 +133,7 @@ export function ContactCard({
       <div
         className={cn(
           "col-span-1 lg:col-span-2 flex h-full w-full items-center border-t bg-card px-4 py-8 md:border-t-0 md:border-l dark:bg-card/50",
-          formSectionClassName,
+          formSectionClassName
         )}
       >
         {children}
@@ -150,6 +147,7 @@ function ContactInfo({
   label,
   value,
   className,
+  span,
   ...props
 }: ContactInfoProps) {
   return (
@@ -159,7 +157,7 @@ function ContactInfo({
       </div>
       <div>
         <p className="font-medium">{label}</p>
-        <p className="text-muted-foreground text-xs">{value}</p>
+        <div className="text-muted-foreground text-xs">{value}</div>
       </div>
     </div>
   );
