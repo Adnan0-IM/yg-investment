@@ -11,6 +11,7 @@ import {
   Truck,
 } from "lucide-react";
 import { useLocation, Link } from "react-router";
+import { useState } from "react";
 import {
   Accordion,
   AccordionContent,
@@ -126,6 +127,7 @@ const Navbar = ({
   ],
 }: Navbar1Props) => {
   const location = useLocation(); // get current route
+  const [open, setOpen] = useState(false);
 
   return (
     <section className="py-4">
@@ -180,7 +182,7 @@ const Navbar = ({
                 alt={logo.alt}
               />
             </Link>
-            <Sheet>
+            <Sheet open={open} onOpenChange={setOpen}>
               <SheetTrigger asChild>
                 <Button variant="outline" size="icon">
                   <Menu className="size-4" />
@@ -210,7 +212,9 @@ const Navbar = ({
                     collapsible
                     className="flex w-full flex-col gap-4"
                   >
-                    {menu.map((item) => renderMobileMenuItem(item))}
+                    {menu.map((item) =>
+                      renderMobileMenuItem(item, () => setOpen(false))
+                    )}
                   </Accordion>
 
                   <Button asChild>
@@ -280,7 +284,7 @@ const renderMenuItem = (item: MenuItem, key?: string) => {
   );
 };
 
-const renderMobileMenuItem = (item: MenuItem) => {
+const renderMobileMenuItem = (item: MenuItem, onSelect: () => void) => {
   if (item.items) {
     return (
       <AccordionItem key={item.title} value={item.title} className="border-b-0">
@@ -290,7 +294,7 @@ const renderMobileMenuItem = (item: MenuItem) => {
         <AccordionContent className="mt-2">
           {item.items.map((subItem) => (
             <SheetClose asChild key={subItem.title}>
-              <SubMenuLink item={subItem} />
+              <SubMenuLink item={subItem} onSelect={onSelect} />
             </SheetClose>
           ))}
         </AccordionContent>
@@ -300,18 +304,25 @@ const renderMobileMenuItem = (item: MenuItem) => {
 
   return (
     <SheetClose asChild key={item.title}>
-      <Link to={item.url} className="text-md font-semibold">
+      <Link to={item.url} className="text-md font-semibold" onClick={onSelect}>
         {item.title}
       </Link>
     </SheetClose>
   );
 };
 
-const SubMenuLink = ({ item }: { item: MenuItem }) => {
+const SubMenuLink = ({
+  item,
+  onSelect,
+}: {
+  item: MenuItem;
+  onSelect?: () => void;
+}) => {
   return (
     <Link
       className="group flex h-full min-h-[84px] select-none items-start gap-3 rounded-lg shadow p-3 leading-none no-underline outline-none transition-colors hover:bg-muted hover:text-accent-foreground"
       to={item.url}
+      onClick={onSelect}
     >
       <div className="text-foreground/80 flex size-8 px-1 items-center justify-center rounded-md ">
         {item.icon}
