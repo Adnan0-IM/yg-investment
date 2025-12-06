@@ -154,7 +154,7 @@ const Navbar = ({
               {/* Key forces remount on route change -> menu closes */}
               <NavigationMenu key={location.pathname}>
                 <NavigationMenuList>
-                  {menu.map((item) => renderMenuItem(item))}
+                  {menu.map((item) => renderMenuItem(item, item.title))}
                 </NavigationMenuList>
               </NavigationMenu>
             </div>
@@ -231,10 +231,10 @@ const Navbar = ({
   );
 };
 
-const renderMenuItem = (item: MenuItem) => {
+const renderMenuItem = (item: MenuItem, key?: string) => {
   if (item.items) {
     return (
-      <NavigationMenuItem key={item.title}>
+      <NavigationMenuItem key={key || item.title}>
         <NavigationMenuTrigger>{item.title}</NavigationMenuTrigger>
         <NavigationMenuContent className="bg-popover text-popover-foreground">
           <div className="w-[680px] md:w-[820px]">
@@ -267,18 +267,16 @@ const renderMenuItem = (item: MenuItem) => {
   }
 
   return (
-    <>
-      <NavigationMenuItem key={item.title}>
-        <NavigationMenuLink asChild>
-          <Link
-            to={item.url}
-            className="bg-background hover:bg-muted hover:text-accent-foreground group inline-flex h-8 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors"
-          >
-            {item.title}
-          </Link>
-        </NavigationMenuLink>
-      </NavigationMenuItem>
-    </>
+    <NavigationMenuItem key={key || item.title}>
+      <NavigationMenuLink asChild>
+        <Link
+          to={item.url}
+          className="bg-background hover:bg-muted hover:text-accent-foreground group inline-flex h-8 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors"
+        >
+          {item.title}
+        </Link>
+      </NavigationMenuLink>
+    </NavigationMenuItem>
   );
 };
 
